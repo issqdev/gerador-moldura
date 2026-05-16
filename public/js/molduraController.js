@@ -78,80 +78,53 @@ const frames = [
     },
     // Molduras PNG padrão
     {
-        id: 'modelo-BB',
-        name: 'Teste BB',
-        category: 'PNG',
+        id: 'minimalista-1',
+        name: 'Minimalista',
+        category: 'Minimalista',
         shape: 'square',
         type: 'png',
-        imageUrl: '../frames/moldura-BB.png'
+        previewInset: '12.5%',
+        imageUrl: '../frames/frame_1_minimalista_1.png'
     },
     {
-        id: 'lider-digital',
-        name: 'Líder Digital',
-        category: 'PNG',
+        id: 'glassmorphism',
+        name: 'Glassmorphism',
+        category: 'Moderna',
         shape: 'square',
         type: 'png',
-        imageUrl: '../frames/moldura-LiderDigital.png'
+        previewInset: '15.625%',
+        imageUrl: '../frames/frame_2_glassmorphism.png'
     },
     {
-        id: 'modelo-BB2',
-        name: 'Fui Certificado',
-        category: 'Redonda',
+        id: 'neon-1',
+        name: 'Neon',
+        category: 'Moderna',
         shape: 'circle',
         type: 'png',
-        imageUrl: '../frames/foto-humanograma.png'
+        previewInset: '12.9%',
+        imageUrl: '../frames/frame_3_neon_1.png'
     },
     {
-        id: 'lider-digital-circular-preta',
-        name: 'Líder Digital',
-        category: 'Redonda',
+        id: 'premium-1',
+        name: 'Premium',
+        category: 'Premium',
         shape: 'circle',
         type: 'png',
-        imageUrl: '../frames/moldura-Lider-Digital-circular-preta.png'
+        previewInset: '13.875%',
+        imageUrl: '../frames/frame_4_premium_1.png'
     },
     {
-        id: 'lider-digital-circular-azul',
-        name: 'Líder Digital',
-        category: 'Redonda',
-        shape: 'circle',
-        type: 'png',
-        imageUrl: '../frames/moldura-Lider-Digital-circular-azul.png'
-    },
-    {
-        id: 'lider-digital-quadrada-preta',
-        name: 'Líder Digital',
-        category: 'PNG',
+        id: 'artistica-1',
+        name: 'Artística',
+        category: 'Artística',
         shape: 'square',
         type: 'png',
-        imageUrl: '../frames/moldura-Lider-Digital-quadrada-preta.png'
-    },
-    {
-        id: 'lider-digital-quadrada-azul',
-        name: 'Líder Digital',
-        category: 'PNG',
-        shape: 'square',
-        type: 'png',
-        imageUrl: '../frames/moldura-Lider-Digital-quadrada-azul.png'
-    },
-    {
-        id: 'lider-digital-quadrada-preta2',
-        name: 'Líder Digital',
-        category: 'PNG',
-        shape: 'square',
-        type: 'png',
-        imageUrl: '../frames/moldura-Lider-Digital-quadrada-preta2.png'
-    },
-    {
-        id: 'lider-digital-quadrada-azul2',
-        name: 'Líder Digital',
-        category: 'PNG',
-        shape: 'square',
-        type: 'png',
-        imageUrl: '../frames/moldura-Lider-Digital-quadrada-azul2.png'
+        previewInset: '14.875%',
+        imageUrl: '../frames/frame_5_artistica_1.png'
     }
 ];
 
-const categories = ['Todas', 'Clássica', 'Moderna', 'Premium', 'Redonda', 'PNG', 'Personalizada'];
+const categories = ['Todas', 'Clássica', 'Moderna', 'Premium', 'Redonda', 'Minimalista', 'Artística', 'Personalizada'];
 
 document.addEventListener('DOMContentLoaded', async function () {
     const categoryFilters = document.getElementById('categoryFilters');
@@ -261,7 +234,7 @@ function createFramePreview(frame) {
         return `
                 <div class="frame-preview-content">
                     <img src="${frame.imageUrl}" alt="Moldura" class="frame-preview-frame">
-                    <img src="${selectedPhoto}" alt="Preview" class="frame-preview-photo ${frame.shape === 'circle' ? 'frame-preview-photo--circle' : ''}">
+                    <img src="${selectedPhoto}" alt="Preview" class="frame-preview-photo ${frame.shape === 'circle' ? 'frame-preview-photo--circle' : ''}" style="--frame-preview-inset: ${frame.previewInset || '20%'};">
                 </div>
             `;
     } else {

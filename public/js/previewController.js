@@ -95,10 +95,18 @@ function renderToCanvas(ctx, size) {
     img.crossOrigin = 'anonymous';
 
     img.onload = () => {
+        const inset = getFrameInset(size);
+        const drawArea = getDrawArea(size, inset);
+
         if (selectedFrame.shape === 'circle') {
             ctx.save();
             ctx.beginPath();
             ctx.arc(size / 2, size / 2, (size / 2) - (selectedFrame.borderWidth || 0), 0, 2 * Math.PI);
+            ctx.clip();
+        } else if (inset > 0) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(drawArea.x, drawArea.y, drawArea.size, drawArea.size);
             ctx.clip();
         }
 
@@ -110,18 +118,18 @@ function renderToCanvas(ctx, size) {
         ctx.rotate((imageRotation * Math.PI) / 180);
         ctx.scale(imageScale / 100, imageScale / 100);
 
-        const imgSize = size * 0.8;
+        const imgSize = drawArea.size;
         const scaleFactor = size / canvas.width;
         ctx.drawImage(
             img,
-            -imgSize / 2 + imagePosition.x * scaleFactor,
-            -imgSize / 2 + imagePosition.y * scaleFactor,
+            drawArea.x - size / 2 + imagePosition.x * scaleFactor,
+            drawArea.y - size / 2 + imagePosition.y * scaleFactor,
             imgSize,
             imgSize
         );
         ctx.restore();
 
-        if (selectedFrame.shape === 'circle') {
+        if (selectedFrame.shape === 'circle' || inset > 0) {
             ctx.restore();
         }
 
@@ -138,6 +146,21 @@ function renderToCanvas(ctx, size) {
     };
 
     img.src = selectedPhoto;
+}
+
+function getFrameInset(size) {
+    if (!selectedFrame.previewInset) return 0;
+
+    const inset = parseFloat(selectedFrame.previewInset);
+    return Number.isNaN(inset) ? 0 : (size * inset) / 100;
+}
+
+function getDrawArea(size, inset) {
+    return {
+        x: inset,
+        y: inset,
+        size: size - inset * 2
+    };
 }
 
 function drawBasicFrame(ctx, size) {

@@ -165,10 +165,10 @@
 }
 
 .frame-preview-photo {
-  top: 20%;
-  left: 20%;
-  width: 60%;
-  height: 60%;
+  top: var(--frame-preview-inset, 20%);
+  left: var(--frame-preview-inset, 20%);
+  width: calc(100% - (var(--frame-preview-inset, 20%) * 2));
+  height: calc(100% - (var(--frame-preview-inset, 20%) * 2));
   z-index: 1;
   border-radius: 4px;
 }
@@ -188,7 +188,7 @@
   color: var(--color-text-muted);
 }
 
-.frame-preview img {
+.basic-frame-preview {
   width: 100%;
   height: 100%;
   object-fit: cover;
