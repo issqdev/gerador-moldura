@@ -1,0 +1,265 @@
+@font-face {
+  font-family: "BancoDoBrasilTitulos";
+  src: url("../font/BancoDoBrasilTitulos-Regular.80ba3113.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #007bff;
+  --color-text-muted: #666;
+  --color-surface: white;
+  --color-on-primary: white;
+  --color-on-header: azure;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "BancoDoBrasilTitulos", sans-serif;
+  background-color: #e5e8ff;
+  background-image: url("../img/logo-uan-destaque.png");
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  background: #536dff;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100px;
+  padding: 0 20px;
+}
+
+h1 {
+  color: var(--color-on-header);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: #c5cbff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-primary);
+  font-weight: bold;
+}
+
+.grupo-1 {
+  display: flex;
+  gap: 15px;
+}
+
+.progress-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.progress-bar {
+  width: 200px;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #00ffc8;
+  transition: width 0.3s ease;
+}
+
+.progress-fill--step-1 {
+  width: 33%;
+}
+
+.progress-fill--step-2 {
+  width: 66%;
+}
+
+.progress-fill--step-3 {
+  width: 100%;
+}
+
+#stepText {
+  color: var(--color-on-header);
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-header {
+  padding: 7px 24px;
+  display: flex;
+  background: #536dff;
+  color: var(--color-on-header);
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10.5px;
+  gap: 13px;
+}
+
+.btn-secondary {
+  display: flex;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-secondary:hover,
+.btn-primary:hover,
+.btn-header:hover {
+  background: #0056b3;
+}
+
+.btn-outline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  gap: 10px;
+}
+
+.btn-outline:hover {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.step {
+  min-height: calc(100vh - 70px);
+  padding: 50px 0;
+}
+
+.step-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.step-title h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.step-title p {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
+
+.step-actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.container-card {
+  margin-bottom: 22px;
+}
+
+.container-card p {
+  color: #717182;
+}
+
+.preview-img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: var(--radius-lg);
+  margin: 0 auto 20px;
+  display: block;
+}
+
+.color-gray {
+  color: var(--color-text-muted);
+}
+
+.text-muted {
+  color: #717182;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    height: auto;
+    padding: 15px 20px;
+    gap: 15px;
+  }
+
+  .progress-bar {
+    width: 150px;
+  }
+}

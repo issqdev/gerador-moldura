@@ -1,0 +1,80 @@
+.grid-2 {
+  display: grid;
+  grid-template-columns: 0.55fr 0.5fr;
+  gap: 30px;
+}
+
+.upload-area {
+  border: 2px dashed #ddd;
+  border-radius: var(--radius-lg);
+  padding: 60px 20px;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.upload-area:hover,
+.upload-area.drag-over {
+  border-color: var(--color-primary);
+  background: #f0f8ff;
+}
+
+.upload-icon {
+  width: 60px;
+  height: 60px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--color-text-muted);
+}
+
+.sample-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.sample-photo {
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.sample-photo:hover {
+  transform: scale(1.05);
+}
+
+.sample-photo.selected {
+  border-color: var(--color-primary);
+}
+
+.sample-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #f3f4f6;
+}
+
+.upload-actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.continue-upload {
+  padding: 15px 40px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}

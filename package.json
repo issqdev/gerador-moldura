@@ -1,0 +1,29 @@
+{
+  "name": "aplicador-moldura",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write"
+  },
+  "keywords": [],
+  "author": "Isaque de Oliveira Machado",
+  "license": "ISC",
+  "description": "Aplicação web para aplicar molduras em fotos com Node.js, Express, HTML, CSS e JavaScript.",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.3"
+  }
+}
