@@ -1,3 +1,9 @@
+import { getPhoto, saveFrame } from './apiClient.js';
+import { frames, categories } from './frameCatalog.js';
+import { filterFrameCards, renderCategoryFilters, renderFrameGrid } from './frameRenderer.js';
+import { createCustomFrame, getAllFrames } from './frameService.js';
+import { samplePhotos } from './samplePhotos.js';
+
 let selectedPhoto = '';
 let selectedFrame = null;
 let typeFrame = null;
@@ -6,125 +12,6 @@ const btContinuar = document.getElementById('continueBtn');
 const btVoltar = document.getElementById('backBtn');
 const popup = document.getElementById('popup');
 
-const samplePhotos = [
-    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4KCg==',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop'
-];
-
-const frames = [
-    // Molduras básicas
-    {
-        id: 'white',
-        name: 'Branco Clássico',
-        category: 'Clássica',
-        borderWidth: 8,
-        borderColor: '#ffffff',
-        shadow: true,
-        shape: 'square',
-        type: 'basic'
-    },
-    {
-        id: 'black',
-        name: 'Preto Elegante',
-        category: 'Clássica',
-        borderWidth: 8,
-        borderColor: '#000000',
-        shadow: true,
-        shape: 'square',
-        type: 'basic'
-    },
-    {
-        id: 'gold',
-        name: 'Ouro Luxo',
-        category: 'Premium',
-        borderWidth: 12,
-        borderColor: '#ffd700',
-        shadow: true,
-        shape: 'square',
-        type: 'basic'
-    },
-    {
-        id: 'silver',
-        name: 'Prata Moderna',
-        category: 'Moderna',
-        borderWidth: 6,
-        borderColor: '#c0c0c0',
-        shadow: true,
-        shape: 'square',
-        type: 'basic'
-    },
-    // Molduras redondas
-    {
-        id: 'circle-white',
-        name: 'Branco Redondo',
-        category: 'Redonda',
-        borderWidth: 8,
-        borderColor: '#ffffff',
-        shadow: true,
-        shape: 'circle',
-        type: 'basic'
-    },
-    {
-        id: 'circle-black',
-        name: 'Preto Redondo',
-        category: 'Redonda',
-        borderWidth: 8,
-        borderColor: '#000000',
-        shadow: true,
-        shape: 'circle',
-        type: 'basic'
-    },
-    // Molduras PNG padrão
-    {
-        id: 'minimalista-1',
-        name: 'Minimalista',
-        category: 'Minimalista',
-        shape: 'square',
-        type: 'png',
-        previewInset: '12.5%',
-        imageUrl: '../frames/frame_1_minimalista_1.png'
-    },
-    {
-        id: 'glassmorphism',
-        name: 'Glassmorphism',
-        category: 'Moderna',
-        shape: 'square',
-        type: 'png',
-        previewInset: '15.625%',
-        imageUrl: '../frames/frame_2_glassmorphism.png'
-    },
-    {
-        id: 'neon-1',
-        name: 'Neon',
-        category: 'Moderna',
-        shape: 'circle',
-        type: 'png',
-        previewInset: '12.9%',
-        imageUrl: '../frames/frame_3_neon_1.png'
-    },
-    {
-        id: 'premium-1',
-        name: 'Premium',
-        category: 'Premium',
-        shape: 'circle',
-        type: 'png',
-        previewInset: '13.875%',
-        imageUrl: '../frames/frame_4_premium_1.png'
-    },
-    {
-        id: 'artistica-1',
-        name: 'Artística',
-        category: 'Artística',
-        shape: 'square',
-        type: 'png',
-        previewInset: '14.875%',
-        imageUrl: '../frames/frame_5_artistica_1.png'
-    }
-];
-
-const categories = ['Todas', 'Clássica', 'Moderna', 'Premium', 'Redonda', 'Minimalista', 'Artística', 'Personalizada'];
 
 document.addEventListener('DOMContentLoaded', async function () {
     const categoryFilters = document.getElementById('categoryFilters');
@@ -135,22 +22,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     const closeBt = document.getElementById('closeBt');
 
     try {
-        const response = await fetch('/api/photo'); // ajuste a rota conforme seu backend
-        const data = await response.json();
+        const data = await getPhoto();
         selectedPhoto = data.photoUrl; // supondo que o backend retorna { photoUrl: '...' }
     } catch (error) {
         console.error('Erro ao buscar a foto selecionada:', error);
         selectedPhoto = samplePhotos[1]; // fallback
     }
 
-    // Create category filters
-    categories.forEach((category, index) => {
-        const button = document.createElement('button');
-        button.className = `category-filter ${index === 0 ? 'active' : ''}`;
-        button.textContent = category;
-        button.addEventListener('click', () => filterFrames(category, button));
-        categoryFilters.appendChild(button);
-    });
+    renderCategoryFilters(categoryFilters, categories, filterFrames);
 
     btVoltar.classList.remove('hidden');
     btVoltar.addEventListener('click', () => {
@@ -189,16 +68,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     btContinuar.addEventListener('click', () => {
         if (!selectedFrame) return;
 
-        fetch('/api/frame', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ frame: selectedFrame })
-        }).then(response => {
-            if (!response.ok) throw new Error('Erro ao enviar moldura!')
-            return response.json();
-        }).then(data => {
+        saveFrame(selectedFrame).then(data => {
             console.log('Moldura enviada com sucesso: ', data);
             window.location.href = '/preview';
         }).catch(error => {
@@ -211,51 +81,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-function createFrameCard(frame) {
-    const div = document.createElement('div');
-    div.className = 'frame-card';
-    div.setAttribute('data-category', frame.category);
-
-    div.innerHTML = `
-                <div class="frame-preview ${frame.shape === 'circle' ? 'circular' : ''}">
-                    ${createFramePreview(frame)}
-                </div>
-                <h4>${frame.name}</h4>
-                <span class="frame-category">${frame.category}</span>
-            `;
-
-    div.addEventListener('click', () => selectFrame(frame, div));
-    return div;
-}
-
-function createFramePreview(frame) {
-    if (frame.type === 'png' || frame.type === 'custom') {
-        // Para molduras PNG, mostra a moldura com a foto dentro
-        return `
-                <div class="frame-preview-content">
-                    <img src="${frame.imageUrl}" alt="Moldura" class="frame-preview-frame">
-                    <img src="${selectedPhoto}" alt="Preview" class="frame-preview-photo ${frame.shape === 'circle' ? 'frame-preview-photo--circle' : ''}" style="--frame-preview-inset: ${frame.previewInset || '20%'};">
-                </div>
-            `;
-    } else {
-        // Para molduras básicas, mostra apenas a foto com a borda
-        return `<img src="${selectedPhoto}" alt="Preview" class="basic-frame-preview ${frame.shape === 'circle' ? 'basic-frame-preview--circle' : ''}" style="--frame-border-width: ${frame.borderWidth}px; --frame-border-color: ${frame.borderColor};">`;
-    }
-}
 
 function filterFrames(category, button) {
-    // Update active button
-    document.querySelectorAll('.category-filter').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-
-    // Filter frames
-    document.querySelectorAll('.frame-card').forEach(card => {
-        if (category === 'Todas' || card.getAttribute('data-category') === category) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
+    filterFrameCards(category, button);
 }
 
 function selectFrame(frame, element) {
@@ -269,13 +97,7 @@ function selectFrame(frame, element) {
 
 function updateFrameGrid() {
     const frameGrid = document.getElementById('frameGrid');
-    frameGrid.innerHTML = '';
-
-    const allFrames = [...frames, ...customFrames];
-    allFrames.forEach(frame => {
-        const frameCard = createFrameCard(frame);
-        frameGrid.appendChild(frameCard);
-    });
+    renderFrameGrid(frameGrid, getAllFrames(frames, customFrames), selectedPhoto, selectFrame);
 }
 
 function handleCustomFrameUpload(e) {
@@ -284,15 +106,7 @@ function handleCustomFrameUpload(e) {
         const reader = new FileReader();
         reader.onload = (event) => {
             const imageUrl = event.target.result;
-            const shape = (typeFrame === 'circle') ? 'circle' : 'square';
-            const customFrame = {
-                id: `custom-${Date.now()}`,
-                name: `Personalizada ${customFrames.length + 1}`,
-                category: 'Personalizada',
-                shape: shape,
-                type: 'custom',
-                imageUrl: imageUrl
-            };
+            const customFrame = createCustomFrame(imageUrl, typeFrame, customFrames.length);
 
             customFrames.push(customFrame);
             updateFrameGrid();
